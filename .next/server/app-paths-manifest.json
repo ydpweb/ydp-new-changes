@@ -1,0 +1,8 @@
+{
+  "/api/export-users/route": "app/api/export-users/route.js",
+  "/registerpage/page": "app/registerpage/page.js",
+  "/page": "app/page.js",
+  "/registration-confirm/page": "app/registration-confirm/page.js",
+  "/admin/export/page": "app/admin/export/page.js",
+  "/userlist/page": "app/userlist/page.js"
+}
