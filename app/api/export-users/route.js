@@ -26,11 +26,14 @@ export async function POST(req) {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
 
-    // Convert workbook to buffer
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    // Convert workbook to a buffer (ArrayBuffer instead of raw buffer)
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
 
-    // Return Excel file
-    return new Response(excelBuffer, {
+    // Convert the buffer to a Uint8Array (required for response)
+    const fileBuffer = new Uint8Array(excelBuffer);
+
+    // Return Excel file as a stream
+    return new Response(fileBuffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "Content-Disposition": "attachment; filename=users.xlsx",
