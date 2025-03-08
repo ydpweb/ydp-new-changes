@@ -21,22 +21,19 @@ export async function POST(req) {
       return NextResponse.json({ message: "No users found" }, { status: 404 });
     }
 
-    // Convert data to Excel format
+    // Convert user data to an Excel sheet
     const worksheet = XLSX.utils.json_to_sheet(users);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
 
-    // Convert workbook to a buffer (ArrayBuffer instead of raw buffer)
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    // Convert workbook to binary format
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
 
-    // Convert the buffer to a Uint8Array (required for response)
-    const fileBuffer = new Uint8Array(excelBuffer);
-
-    // Return Excel file as a stream
-    return new Response(fileBuffer, {
+    return new Response(excelBuffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "Content-Disposition": "attachment; filename=users.xlsx",
+        "Content-Length": excelBuffer.length.toString(),
       },
     });
   } catch (error) {
