@@ -57,26 +57,36 @@ function RegistrationConfirmContent() {
       });
   }, [searchParams]);
 
-  const downloadPDF = async () => {
-    const input = printRef.current;
+ const downloadPDF = async () => {
+  const input = printRef.current;
 
-    try {
-      const canvas = await html2canvas(input, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: null,
-      });
+  try {
+    const canvas = await html2canvas(input, {
+      scale: 2, // Lower scale to fit properly
+      useCORS: true,
+      backgroundColor: null,
+      scrollX: 0,
+      scrollY: 0,
+    });
 
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const width = pdf.internal.pageSize.getWidth();
-      const height = (canvas.height * width) / canvas.width;
-      pdf.addImage(imgData, "PNG", 10, 10, width - 20, height);
-      pdf.save("registration-confirmation.pdf");
-    } catch (error) {
-      console.error("❌ Error generating PDF:", error);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    if (imgHeight > 297) {
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, 297); // Fit height to A4
+    } else {
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
     }
-  };
+
+    pdf.save("registration-confirmation.pdf");
+  } catch (error) {
+    console.error("❌ Error generating PDF:", error);
+  }
+};
+
 
   if (loading) return <p className="text-center text-gray-600 mt-10">Loading...</p>;
   if (error) return <p className="text-center text-red-600 mt-10">{error}</p>;
