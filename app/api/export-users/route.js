@@ -10,7 +10,6 @@ export async function POST(req) {
     const { password } = await req.json();
     const ADMIN_PASSWORD = "ydp2021!";
 
-    // ✅ Check if password is correct
     if (password !== ADMIN_PASSWORD) {
       return NextResponse.json({ message: "Unauthorized: Incorrect password" }, { status: 401 });
     }
@@ -41,10 +40,11 @@ export async function POST(req) {
     // ✅ Convert workbook to buffer
     const buffer = await workbook.xlsx.writeBuffer();
 
+    // 🔹 Fix response format
     return new Response(buffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": "attachment; filename=users.xlsx",
+        "Content-Disposition": `attachment; filename="users.xlsx"`,
       },
     });
   } catch (error) {
