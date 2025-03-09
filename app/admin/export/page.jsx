@@ -19,15 +19,22 @@ export default function ExportUsers() {
         { responseType: "blob" } // Ensure response is treated as a file
       );
 
-      // ✅ Create a download link for the file
-      const blob = new Blob([response.data], { type: response.headers["content-type"] });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "users.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (response.status === 200) {
+        // ✅ Create a download link for the file
+        const blob = new Blob([response.data], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "users.xlsx";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        throw new Error("Failed to download file");
+      }
     } catch (error) {
+      console.error("❌ Error downloading file:", error);
       setError("Invalid password or server error");
     } finally {
       setLoading(false);
@@ -48,7 +55,7 @@ export default function ExportUsers() {
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
         />
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
         <button
           onClick={handleDownload}
