@@ -16,6 +16,7 @@
     "dotenv": "^16.4.7",
     "exceljs": "^4.4.0",
     "express": "^4.21.2",
+    "file-saver": "^2.0.5",
     "html2canvas-pro": "^1.5.8",
     "jspdf": "^3.0.0",
     "jspdf-autotable": "^5.0.2",
