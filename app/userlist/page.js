@@ -135,10 +135,10 @@ export default function UserList() {
 
           {/* 🔹 Download Excel Button */}
           <button
-            onClick={() => router.push("/admin/export")}
+            onClick={() => router.push("/export-users")}
             className="mt-6 bg-green-700 text-white py-2 px-4 rounded-lg hover:bg-green-800 transition"
           >
-            Download Excel
+            See All Users and Download Excel
           </button>
         </>
       )}
