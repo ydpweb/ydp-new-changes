@@ -6,19 +6,27 @@ import ExcelJS from "exceljs";
 export async function POST(req) {
   try {
     await connectDB(); // ✅ Connect to MongoDB
+    console.log("✅ Connected to MongoDB");
 
     const { password } = await req.json();
+    console.log("🔹 Password received:", password);
+
     const ADMIN_PASSWORD = "ydp2021!";
 
     if (password !== ADMIN_PASSWORD) {
+      console.warn("❌ Unauthorized access attempt with incorrect password");
       return NextResponse.json({ message: "Unauthorized: Incorrect password" }, { status: 401 });
     }
 
-    const users = await User.find({}).lean(); // Fetch users from MongoDB
+    const users = await User.find({}).lean();
+    console.log(`📊 Found ${users.length} users in the database`);
 
     if (users.length === 0) {
+      console.warn("⚠ No users found in the database");
       return NextResponse.json({ message: "No users found" }, { status: 404 });
     }
+
+    console.log("🔽 Sample User Data:", users.slice(0, 5)); // Logs first 5 users for checking
 
     // ✅ Create Excel file using `exceljs`
     const workbook = new ExcelJS.Workbook();
@@ -36,17 +44,20 @@ export async function POST(req) {
 
     // Add Data
     users.forEach((user) => worksheet.addRow(user));
+    console.log("✅ User data added to the Excel file");
 
     // ✅ Convert workbook to buffer
     const buffer = await workbook.xlsx.writeBuffer();
+    console.log("📁 Excel file successfully generated");
 
-    // 🔹 Fix response format
+    // ✅ Return file response
     return new Response(buffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": `attachment; filename="users.xlsx"`,
+        "Content-Disposition": "attachment; filename=users.xlsx",
       },
     });
+
   } catch (error) {
     console.error("❌ Error exporting users:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
