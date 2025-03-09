@@ -50,13 +50,10 @@ export async function POST(req) {
     const buffer = await workbook.xlsx.writeBuffer();
     console.log("📁 Excel file successfully generated");
 
-    // ✅ Return file response
-    return new Response(buffer, {
-      headers: {
-        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "Content-Disposition": "attachment; filename=users.xlsx",
-      },
-    });
+    // ✅ Convert Buffer to Base64 for safe transfer
+    const base64Data = Buffer.from(buffer).toString("base64");
+
+    return NextResponse.json({ file: base64Data, fileName: "users.xlsx" });
 
   } catch (error) {
     console.error("❌ Error exporting users:", error);
