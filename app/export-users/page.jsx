@@ -8,25 +8,30 @@ export default function ExportUsersPage() {
   const downloadUsers = async () => {
     try {
       setLoading(true);
-
       const response = await fetch("/api/export-users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: "ydp2021!" }), // Ensure this matches the backend password
+        body: JSON.stringify({ password: "ydp2021!" }),
       });
 
       if (!response.ok) throw new Error("Failed to fetch file");
 
-      const data = await response.json(); // Get JSON response
-      const base64 = data.file; // Extract base64 file data
+      const data = await response.json();
+      const base64 = data.file;
 
-      // Convert Base64 to Blob
+      if (!base64) throw new Error("No file data received");
+
+      // 🔹 Convert Base64 to Blob
       const byteCharacters = atob(base64);
-      const byteNumbers = new Array(byteCharacters.length).map((_, i) => byteCharacters.charCodeAt(i));
+      const byteNumbers = new Array(byteCharacters.length)
+        .fill(0)
+        .map((_, i) => byteCharacters.charCodeAt(i));
       const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const blob = new Blob([byteArray], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
 
-      // Create a download link
+      // 🔹 Download File
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -38,7 +43,7 @@ export default function ExportUsersPage() {
 
       console.log("✅ Excel file downloaded successfully");
     } catch (error) {
-      console.error("Download error:", error);
+      console.error("❌ Download error:", error);
       alert("Failed to download users file!");
     } finally {
       setLoading(false);
