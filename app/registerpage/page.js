@@ -158,25 +158,27 @@ export default function Register() {
         </select>
 
 <div className="relative w-full">
-  <label
-    htmlFor="dob"
-    className={`absolute left-3 text-gray-400 transition-all ${
-      form.dob ? "-top-2 text-sm bg-white px-1" : "top-3"
-    }`}
-  >
-    Date of Birth/பிறந்த தேதி
-  </label>
   <input
-    type="date"
+    type="text" // Use text to remove default "dd-mm-yyyy"
     id="dob"
     name="dob"
     value={form.dob}
+    onFocus={(e) => (e.target.type = "date")} // Convert to date on focus
+    onBlur={(e) => !e.target.value && (e.target.type = "text")} // Convert back if empty
     onChange={handleChange}
     required
     disabled={loading}
-    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
+    placeholder=" " // Prevents overlap
+    className="peer w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
   />
+  <label
+    htmlFor="dob"
+    className="absolute left-3 top-3 text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500"
+  >
+    Date of Birth/பிறந்த தேதி
+  </label>
 </div>
+
 
 
 
