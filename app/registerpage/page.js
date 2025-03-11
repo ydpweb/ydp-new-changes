@@ -165,14 +165,9 @@ export default function Register() {
     value={form.dob}
     onChange={handleChange}
     required
-    className="peer w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
+    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none placeholder-gray-400 sm:placeholder-transparent"
+    placeholder="DD-MM-YYYY"
   />
-  <label
-    htmlFor="dob"
-    className="absolute left-3 top-3 text-gray-400 transition-all peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400"
-  >
-    Date of Birth (DD-MM-YYYY)
-  </label>
 </div>
 
 
