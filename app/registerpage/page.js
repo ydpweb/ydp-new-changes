@@ -157,7 +157,7 @@ export default function Register() {
           <option value="Other">Other</option>
         </select>
 
-  <div className="relative w-full">
+<div className="relative w-full">
   <input
     type="date"
     id="dob"
@@ -165,13 +165,13 @@ export default function Register() {
     value={form.dob}
     onChange={handleChange}
     required
-    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none peer"
+    className="peer w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
   />
   <label
     htmlFor="dob"
-    className="absolute left-3 top-3 text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:left-3 peer-placeholder-shown:opacity-100 peer-focus:top-1 peer-focus:left-3 peer-focus:text-sm peer-focus:opacity-0"
+    className="absolute left-3 top-3 text-gray-400 transition-all peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400"
   >
-    DD-MM-YYYY
+    Date of Birth (DD-MM-YYYY)
   </label>
 </div>
 
