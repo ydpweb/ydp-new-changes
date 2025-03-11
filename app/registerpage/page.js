@@ -158,6 +158,14 @@ export default function Register() {
         </select>
 
 <div className="relative w-full">
+  <label
+    htmlFor="dob"
+    className={`absolute left-3 text-gray-400 transition-all ${
+      form.dob ? "-top-2 text-sm bg-white px-1" : "top-3"
+    }`}
+  >
+    Date of Birth/பிறந்த தேதி
+  </label>
   <input
     type="date"
     id="dob"
@@ -165,8 +173,8 @@ export default function Register() {
     value={form.dob}
     onChange={handleChange}
     required
-    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none placeholder-gray-400 sm:placeholder-transparent"
-    placeholder="DD-MM-YYYY"
+    disabled={loading}
+    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
   />
 </div>
 
