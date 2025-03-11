@@ -157,15 +157,7 @@ export default function Register() {
           <option value="Other">Other</option>
         </select>
 
-       <div className="relative w-full">
-  <label
-    htmlFor="dob"
-    className={`absolute left-4 top-4 text-gray-400 transition-all pointer-events-none ${
-      form.dob ? "hidden" : "block"
-    }`}
-  >
-    Date of Birth (DD-MM-YYYY)
-  </label>
+  <div className="relative w-full">
   <input
     type="date"
     id="dob"
@@ -173,9 +165,16 @@ export default function Register() {
     value={form.dob}
     onChange={handleChange}
     required
-    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-transparent appearance-none"
+    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none peer"
   />
+  <label
+    htmlFor="dob"
+    className="absolute left-3 top-3 text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:left-3 peer-placeholder-shown:opacity-100 peer-focus:top-1 peer-focus:left-3 peer-focus:text-sm peer-focus:opacity-0"
+  >
+    DD-MM-YYYY
+  </label>
 </div>
+
 
 
         {!isRedirecting ? (
