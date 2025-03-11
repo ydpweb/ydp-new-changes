@@ -159,25 +159,29 @@ export default function Register() {
 
 <div className="relative w-full">
   <input
-    type="text" // Use text to remove default "dd-mm-yyyy"
+    type="text" // Initially text to remove default placeholder
     id="dob"
     name="dob"
     value={form.dob}
-    onFocus={(e) => (e.target.type = "date")} // Convert to date on focus
+    onFocus={(e) => (e.target.type = "date")} // Convert to date picker on focus
     onBlur={(e) => !e.target.value && (e.target.type = "text")} // Convert back if empty
     onChange={handleChange}
     required
     disabled={loading}
-    placeholder=" " // Prevents overlap
+    placeholder=" " // Keeps placeholder hidden
     className="peer w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
   />
-  <label
-    htmlFor="dob"
-    className="absolute left-3 top-3 text-gray-400 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500"
-  >
-    Date of Birth/பிறந்த தேதி
-  </label>
+  {/* Show label only when no date is selected */}
+  {!form.dob && (
+    <label
+      htmlFor="dob"
+      className="absolute left-3 top-3 text-gray-400 transition-all peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500"
+    >
+      Date of Birth/பிறந்த தேதி
+    </label>
+  )}
 </div>
+
 
 
 
