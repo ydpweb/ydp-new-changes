@@ -157,26 +157,26 @@ export default function Register() {
           <option value="Other">Other</option>
         </select>
 
-        <div className="relative w-full">
-          {!form.dob && (
-            <label
-              htmlFor="dob"
-              className="absolute left-3 top-3 text-gray-400 pointer-events-none transition-all"
-            >
-              Date of Birth/பிறந்த தேதி
-            </label>
-          )}
-          <input
-            type="date"
-            id="dob"
-            name="dob"
-            value={form.dob}
-            onChange={handleChange}
-            required
-            disabled={loading}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-transparent"
-          />
-        </div>
+       <div className="relative w-full">
+  <label
+    htmlFor="dob"
+    className={`absolute left-4 top-4 text-gray-400 transition-all pointer-events-none ${
+      form.dob ? "hidden" : "block"
+    }`}
+  >
+    Date of Birth (DD-MM-YYYY)
+  </label>
+  <input
+    type="date"
+    id="dob"
+    name="dob"
+    value={form.dob}
+    onChange={handleChange}
+    required
+    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-transparent appearance-none"
+  />
+</div>
+
 
         {!isRedirecting ? (
           <button
