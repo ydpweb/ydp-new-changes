@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const router = useRouter();
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; // ✅ Get backend URL
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const [form, setForm] = useState({
     name: "",
@@ -41,6 +41,11 @@ export default function Register() {
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setForm({ ...form, phone: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -54,7 +59,6 @@ export default function Register() {
       });
 
       localStorage.setItem("registeredUser", JSON.stringify(res.data));
-
       toast.success("🎉 Registration successful! Redirecting...");
       setIsRedirecting(true);
 
@@ -93,6 +97,7 @@ export default function Register() {
           value={form.name}
           onChange={handleChange}
           required
+          disabled={loading}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
         />
 
@@ -101,10 +106,11 @@ export default function Register() {
           name="phone"
           placeholder="Phone Number/கைபேசி எண்"
           value={form.phone}
-          onChange={handleChange}
+          onChange={handlePhoneChange}
           maxLength="10"
           minLength="10"
           required
+          disabled={loading}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
         />
 
@@ -113,6 +119,7 @@ export default function Register() {
           value={form.location}
           onChange={handleChange}
           required
+          disabled={loading}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
         >
           <option value="">Select District/மாவட்டம்</option>
@@ -131,6 +138,7 @@ export default function Register() {
             value={form.otherLocation}
             onChange={handleChange}
             required
+            disabled={loading}
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
           />
         )}
@@ -140,6 +148,7 @@ export default function Register() {
           value={form.gender}
           onChange={handleChange}
           required
+          disabled={loading}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
         >
           <option value="">Select Gender/பாலினம்</option>
@@ -148,16 +157,27 @@ export default function Register() {
           <option value="Other">Other</option>
         </select>
 
-        <input
-          type="date"
-          name="dob"
-          value={form.dob}
-          onChange={handleChange}
-          required
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
-        />
+        <div className="relative w-full">
+          {!form.dob && (
+            <label
+              htmlFor="dob"
+              className="absolute left-3 top-3 text-gray-400 pointer-events-none transition-all"
+            >
+              Date of Birth/பிறந்த தேதி
+            </label>
+          )}
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            value={form.dob}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-transparent"
+          />
+        </div>
 
-        {/* Register Button */}
         {!isRedirecting ? (
           <button
             type="submit"
@@ -174,7 +194,6 @@ export default function Register() {
           </div>
         )}
 
-        {/* View Registered Users Button */}
         {!isRedirecting && (
           <button
             type="button"
