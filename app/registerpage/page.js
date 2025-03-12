@@ -158,29 +158,37 @@ export default function Register() {
         </select>
 
 <div className="relative w-full">
-  <input
-    type="text" // Initially text to remove default placeholder
-    id="dob"
-    name="dob"
-    value={form.dob}
-    onFocus={(e) => (e.target.type = "date")} // Convert to date picker on focus
-    onBlur={(e) => !e.target.value && (e.target.type = "text")} // Convert back if empty
-    onChange={handleChange}
-    required
-    disabled={loading}
-    placeholder=" " // Keeps placeholder hidden
-    className="peer w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
-  />
-  {/* Show label only when no date is selected */}
   {!form.dob && (
     <label
       htmlFor="dob"
-      className="absolute left-3 top-3 text-gray-400 transition-all peer-focus:top-[-10px] peer-focus:text-sm peer-focus:text-green-500"
+      className="absolute left-3 top-3 text-gray-400 transition-all"
     >
       Date of Birth/பிறந்த தேதி
     </label>
   )}
+  <input
+    type="text" // Removes default browser placeholder
+    id="dob"
+    name="dob"
+    value={form.dob}
+    onFocus={(e) => {
+      e.target.type = "date"; // Switch to date picker
+      e.target.previousSibling.style.display = "none"; // Hide label
+    }}
+    onBlur={(e) => {
+      if (!e.target.value) {
+        e.target.type = "text"; // Switch back if empty
+        e.target.previousSibling.style.display = "block"; // Show label again
+      }
+    }}
+    onChange={handleChange}
+    required
+    disabled={loading}
+    placeholder=" " // Keeps input clean
+    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 bg-white appearance-none"
+  />
 </div>
+
 
 
 
